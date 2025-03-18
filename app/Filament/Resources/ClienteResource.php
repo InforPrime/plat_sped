@@ -75,7 +75,7 @@ class ClienteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            'arquivos' => RelationManagers\ArquivosRelationManager::class,
         ];
     }
 
