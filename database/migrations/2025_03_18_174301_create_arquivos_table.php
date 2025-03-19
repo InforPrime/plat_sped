@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('arquivos', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->string('nome')->nullable();
             $table->string('caminho');
-            $table->string('extensao');
+            $table->string('extensao')->nullable();
             $table->foreignIdFor(Cliente::class, 'cliente_id');
             $table->timestamps();
         });
