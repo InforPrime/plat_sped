@@ -52,7 +52,7 @@ class ArquivosRelationManager extends RelationManager
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('download')
                     ->label('Download')
-                    ->icon('download')
+                    // ->icon('download')
                     ->action(fn ($record) => Storage::disk('local')->download($record->caminho, $record->nome)),
                 
             ])
