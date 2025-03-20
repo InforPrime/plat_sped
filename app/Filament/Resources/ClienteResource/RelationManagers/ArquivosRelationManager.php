@@ -37,8 +37,11 @@ class ArquivosRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('nome')
             ->columns([
-                Tables\Columns\TextColumn::make('caminho')
-                    ->label('Nome'),
+                Tables\Columns\TextColumn::make('nome')
+                    ->label('Nome')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('extensao')
+                    ->label('Extensão'),
 
             ])
             ->filters([
@@ -53,8 +56,8 @@ class ArquivosRelationManager extends RelationManager
                 Tables\Actions\Action::make('download')
                     ->label('Download')
                     // ->icon('download')
-                    ->action(fn ($record) => Storage::disk('local')->download($record->caminho, $record->nome)),
-                
+                    ->action(fn($record) => Storage::disk('local')->download($record->caminho, $record->nome)),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

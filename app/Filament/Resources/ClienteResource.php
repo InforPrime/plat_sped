@@ -42,7 +42,7 @@ class ClienteResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('nome'),
+                TextColumn::make('nome')->searchable(),
                 TextColumn::make('telefone'),
                 TextColumn::make('contador.name')
                     ->label('Contador')
