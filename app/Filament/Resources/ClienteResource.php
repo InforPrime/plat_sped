@@ -57,7 +57,8 @@ class ClienteResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(auth()->user()->role === 'admin'),
                 ]),
             ])->modifyQueryUsing(function (Builder $query) {
                 if (auth()->user()->role === 'contador') {
