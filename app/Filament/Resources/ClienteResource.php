@@ -30,7 +30,8 @@ class ClienteResource extends Resource
         return $form
             ->schema([
                 TextInput::make('nome'),
-                TextInput::make('telefone'),
+                TextInput::make('nome_modelo')
+                    ->label('Nome do Modelo'),
                 Select::make('contador_id')
                     ->label('Contador')
                     ->options(User::where('role', 'contador')->pluck('name', 'id')->toArray())
@@ -43,7 +44,9 @@ class ClienteResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('nome')->searchable(),
-                TextColumn::make('telefone'),
+                TextColumn::make('nome_modelo')
+                    ->label('Nome do Modelo')
+                    ->searchable(),
                 TextColumn::make('contador.name')
                     ->label('Contador')
             ])
@@ -74,7 +77,8 @@ class ClienteResource extends Resource
         return $infolist
             ->schema([
                 Infolists\Components\TextEntry::make('nome'),
-                Infolists\Components\TextEntry::make('telefone'),
+                Infolists\Components\TextEntry::make('nome_modelo')
+                    ->label('Nome do Modelo'),
                 Infolists\Components\TextEntry::make('contador.name')
                     ->columnSpanFull(),
             ]);
