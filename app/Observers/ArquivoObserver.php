@@ -28,7 +28,9 @@ class ArquivoObserver
      */
     public function deleted(Arquivo $arquivo): void
     {
-        //
+         if ($arquivo->caminho && Storage::disk('local')->exists($arquivo->caminho)) {
+            Storage::disk('local')->delete($arquivo->caminho);
+        }
     }
 
     /**
