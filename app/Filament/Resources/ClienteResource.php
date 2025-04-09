@@ -29,13 +29,16 @@ class ClienteResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('nome'),
+                TextInput::make('nome')
+                    ->required(),
                 TextInput::make('nome_modelo')
-                    ->label('Nome do Modelo'),
+                    ->label('Nome do Modelo')
+                    ->required(),
                 Select::make('contador_id')
                     ->label('Contador')
                     ->options(User::where('role', 'contador')->pluck('name', 'id')->toArray())
-                    ->searchable(),
+                    ->searchable()
+                    ->required(),
             ]);
     }
 

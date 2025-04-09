@@ -45,7 +45,15 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
+        logger()->info('Policy Update', [
+            'autenticado_id' => $user->id,
+            'model_id' => $model->id,
+            'role'         => $user->role,
+        ]);
+
         if ($user->role === 'admin') {
+            return true;
+        } else if ($user->id === $model->id) {
             return true;
         }
         return false;

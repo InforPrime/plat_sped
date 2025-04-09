@@ -26,15 +26,21 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->label('Nome'),
-                TextInput::make('email')->email(),
+                TextInput::make('name')->label('Nome')
+                    ->required(),
+                TextInput::make('email')->email()
+                    ->required(),
                 Select::make('role')
                     ->label('Regra')
                     ->options([
                         'admin' => 'Admin',
                         'contador' => 'Contador',
-                    ]),
-                TextInput::make('password')->password()->label('Senha'),
+                    ])
+                    ->visible(
+                        fn() => auth()->user()->role === 'admin'
+                    ),
+                TextInput::make('password')->password()->label('Senha')
+                    ->required(),
 
             ]);
     }
@@ -44,10 +50,11 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->label('nome')
-                ->searchable(),
+                    ->label('nome')
+                    ->searchable(),
                 TextColumn::make('email'),
-                TextColumn::make('role'),
+                TextColumn::make('role')
+                    ->label('tipo'),
             ])
             ->filters([
                 //
@@ -57,9 +64,24 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                    ->visible(
+                        fn() => auth()->user()->role === 'admin'
+                    ),
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Se o usuário logado não for admin, filtra para retornar somente seu próprio registro
+        if (auth()->user()->role !== 'admin') {
+            $query->where('id', auth()->user()->id);
+        }
+
+        return $query;
     }
 
     public static function getRelations(): array
@@ -80,6 +102,12 @@ class UserResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()->role === 'admin';
+        if (auth()->user()->role === 'admin') {
+            return true;
+        } else if (auth()->id() == 1) {
+            return true;
+        }
+
+        return false;
     }
 }
