@@ -17,5 +17,6 @@ Route::post('/login', AuthController::class);
 
 Route::controller(ArquivoController::class)
     ->group(function () {
-        Route::post('/arquivo-upload', 'store');
+        Route::post('/arquivo-upload', 'store')
+        ->middleware('auth:sanctum');
     });
