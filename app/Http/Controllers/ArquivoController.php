@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Arquivo;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArquivoController extends Controller
 {
@@ -14,6 +15,12 @@ class ArquivoController extends Controller
         $request->validate([
             'arquivo' => 'required|file'
         ]);
+
+        if (Storage::disk('local')->exists('speds/' . $request->file('arquivo')->getClientOriginalName())) {
+            return response()->json([
+                'message' => 'Arquivo já existe.'
+            ], 409);
+        }
 
         $arquivo = $request->file('arquivo');
         $nomeArquivo = $arquivo->getClientOriginalName();
