@@ -45,7 +45,7 @@ class ArquivoController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Arquivo enviado com sucesso'
+            'message' => 'Arquivo enviado com sucesso.'
         ]);
     }
 }
